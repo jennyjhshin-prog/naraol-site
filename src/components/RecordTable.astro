@@ -3,10 +3,11 @@ interface Props {
   columns: { key: string; label: string }[];
   rows: Record<string, string | number>[];
   caption: string;
+  hideCaption?: boolean;
 }
-const { columns, rows, caption } = Astro.props;
+const { columns, rows, caption, hideCaption = false } = Astro.props;
 ---
-<table class="record-table">
+<table class:list={["record-table", { "no-caption": hideCaption }]}>
   <caption>{caption}</caption>
   <thead>
     <tr>{columns.map((c) => <th scope="col">{c.label}</th>)}</tr>

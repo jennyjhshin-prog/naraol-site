@@ -102,6 +102,8 @@ a.card:hover { border-color: var(--accent); }
 .record-table th, .record-table td { border-bottom: 1px solid var(--line); padding: .55rem .6rem; text-align: left; vertical-align: top; }
 .record-table thead th { border-bottom: 2px solid var(--ink); font-weight: 600; white-space: nowrap; }
 .record-table td:first-child { font-family: var(--serif); color: var(--accent); white-space: nowrap; }
+.record-table td:nth-child(2) { white-space: nowrap; }
+.record-table.no-caption caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 @media screen and (max-width: 639px) {
   .record-table, .record-table tbody, .record-table tr, .record-table td { display: block; width: 100%; }
   .record-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }

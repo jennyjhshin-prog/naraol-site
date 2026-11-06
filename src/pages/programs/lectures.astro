@@ -31,6 +31,7 @@ const content = (l: (typeof lectures)[number]) =>
         <summary>{y}년 <span class="count">{byYear.get(y)!.length}회</span></summary>
         <RecordTable
           caption={`${y}년 인문학강좌`}
+          hideCaption
           columns={[
             { key: 'no', label: '회차' },
             { key: 'date', label: '일자' },
