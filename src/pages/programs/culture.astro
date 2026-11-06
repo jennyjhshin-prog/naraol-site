@@ -1,4 +1,6 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import PageTitle from '../../components/PageTitle.astro';
 import Timeline from '../../components/Timeline.astro';
@@ -7,6 +9,15 @@ import { books, history } from '../../lib/data';
 const cultureYears = history
   .map((y) => ({ year: y.year, items: y.items.filter((i) => i.kind === 'culture') }))
   .filter((y) => y.items.length > 0);
+
+const coverFiles = import.meta.glob<{ default: ImageMetadata }>('/src/assets/books/*.{jpg,jpeg,png,webp}', { eager: true });
+const coverOf = (name?: string) => {
+  if (!name) return undefined;
+  const hit = coverFiles[`/src/assets/books/${name}`];
+  if (!hit) throw new Error(`books.yaml: cover "${name}" 파일이 src/assets/books/ 에 없습니다`);
+  return hit.default;
+};
+const shelf = books.map((b) => ({ ...b, image: coverOf(b.cover) }));
 ---
 <Base title="문화예술행사·문화공간 물볕">
   <PageTitle title="문화예술행사 · 문화공간 물볕" lead="지역 상여문화의 보존과 홍보를 위해 전통 상여행렬 시연, 전시, 음악회 등 다양한 문화예술 행사를 열고 있습니다." />
@@ -26,14 +37,24 @@ const cultureYears = history
       물볕아카데미와 음악산책, 인문학 포럼·음악회가 이곳에서 열립니다.
     </p>
 
-    {books.length > 0 && (
+    {shelf.length > 0 && (
       <>
         <h3>물볕서점 추천도서</h3>
-        <ul class="books">
-          {books.map((b) => (
+        <ul class="shelf">
+          {shelf.map((b) => (
             <li>
-              <strong>{b.title}</strong> <span class="muted">{b.author} · {b.publisher}</span>
-              {b.note && <div class="muted">{b.note}</div>}
+              <figure>
+                <div class="cover">
+                  {b.image
+                    ? <Image src={b.image} alt={`『${b.title}』 표지`} widths={[240, 480]} sizes="(min-width: 960px) 200px, 45vw" />
+                    : <span class="no-cover">{b.title}</span>}
+                </div>
+                <figcaption>
+                  <strong>{b.title}</strong>
+                  <span class="muted">{b.author} · {b.publisher}</span>
+                  {b.note && <span class="note">{b.note}</span>}
+                </figcaption>
+              </figure>
             </li>
           ))}
         </ul>
@@ -43,7 +64,14 @@ const cultureYears = history
 </Base>
 
 <style>
-  .books { list-style: none; padding: 0; margin: 0; display: grid; gap: 0 32px; }
-  @media (min-width: 768px) { .books { grid-template-columns: repeat(2, 1fr); } }
-  .books li { border-top: 1px solid var(--line); padding: .7rem 0; font-size: .95rem; }
+  .shelf { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 16px; }
+  @media (min-width: 640px) { .shelf { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 960px) { .shelf { grid-template-columns: repeat(5, 1fr); gap: 32px 24px; } }
+  .shelf li { break-inside: avoid; }
+  .cover { aspect-ratio: 2 / 3; background: var(--paper-deep); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .cover img { width: 100%; height: 100%; object-fit: cover; }
+  .no-cover { font-family: var(--serif); font-weight: 700; padding: 1rem; text-align: center; }
+  figcaption { display: flex; flex-direction: column; gap: .15rem; padding-top: .6rem; font-size: .9rem; line-height: 1.5; }
+  figcaption strong { color: var(--ink); font-size: .98rem; }
+  .note { color: var(--ink-soft); font-size: .85rem; }
 </style>

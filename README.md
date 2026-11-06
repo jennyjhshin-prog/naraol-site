@@ -31,7 +31,7 @@ npm run check-links  # 깨진 내부 링크·이미지 검사
 | `lectures.yaml` | 인문학강좌 회차 | `no` `date` `speaker?` `affiliation?` `topic` |
 | `people.yaml` | 임원 (이사장이 맨 앞) | `name` `role` `bio[]` |
 | `academy.yaml` | 물볕아카데미 | `courses[{name,teacher,bio}]`, `terms[{title,period,items[]}]` |
-| `books.yaml` | 물볕서점 추천도서 | `title` `author` `publisher` `note?` |
+| `books.yaml` | 물볕서점 추천도서 (표지 갤러리) | `title` `author` `publisher` `note?` `cover?` — 표지 파일은 `src/assets/books/`에 넣고 파일명을 `cover`에 |
 
 예시 — 강좌 한 회 추가 (`lectures.yaml` 맨 아래):
 

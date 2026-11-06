@@ -77,6 +77,7 @@ export const BookSchema = z.object({
   author: z.string(),
   publisher: z.string(),
   note: z.string().optional(),
+  cover: z.string().optional(),
 });
 export const BooksSchema = z.array(BookSchema);
 export type Book = z.infer<typeof BookSchema>;
