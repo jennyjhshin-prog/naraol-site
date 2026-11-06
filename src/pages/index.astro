@@ -1,9 +1,87 @@
 ---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import StatBlock from '../components/StatBlock.astro';
+import Timeline from '../components/Timeline.astro';
+import PressItem from '../components/PressItem.astro';
+import hero from '../assets/sangyeotjip/sangyeotjip-01.jpg';
+import { conferences, history, lectures, org } from '../lib/data';
+import { homeStats, recentHistory } from '../lib/stats';
+
+const stats = homeStats({ org, conferences, lectures }, new Date());
+const recent = recentHistory(history, 3);
+const press = (await getCollection('press')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
+
+const programs = [
+  { title: '국제학술대회', href: '/programs/conference/', text: '2014년부터 매년 국내외 학자와 함께 한국 전통상례문화를 조명합니다.' },
+  { title: '인문학강좌', href: '/programs/lectures/', text: '2007년부터 매달 역사·철학·종교·예술 강좌를 이어 왔습니다.' },
+  { title: '물볕아카데미', href: '/programs/academy/', text: '고전·문학·미술·음악을 주민과 함께 배우는 시민 인문학 과정입니다.' },
+  { title: '경산상엿집 보존·활용', href: '/sangyeotjip/', text: `${org.heritage}을 보존하고 상례 자료를 수집·전시합니다.` },
+];
 ---
 <Base title="(사)나라얼연구소">
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <hr class="rule-accent" />
+        <h1>{org.name}</h1>
+        <p class="vision">나라의 얼이 담긴 상·제례 문화의 원형을 복원하고 그 독특한 의미를 찾아내어 우리의 정체성과 주체성을 세계에 알리고자 한다</p>
+        <p class="no-print"><a class="button" href="/about/">연구소 소개</a> <a class="button" href="/about/history/">연혁 보기</a></p>
+      </div>
+      <figure class="hero-photo">
+        <Image src={hero} alt="경산상엿집 전경" widths={[640, 1080]} sizes="(min-width: 960px) 520px, 100vw" loading="eager" />
+        <figcaption>{org.heritage}</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <div class="container">
-    <h1>(사)나라얼연구소</h1>
-    <p>홈 페이지는 Task 7에서 완성됩니다.</p>
+    <section>
+      <h2 class="sr-title">숫자로 보는 나라얼</h2>
+      <StatBlock stats={stats} />
+    </section>
+
+    <section>
+      <h2>주요 사업</h2>
+      <div class="grid cols-4">
+        {programs.map((p) => (
+          <a class="card" href={p.href}>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    {recent.length > 0 && (
+      <section>
+        <div class="section-head">
+          <h2>최근 3년 주요 실적</h2>
+          <a href="/about/history/">전체 연혁 보기 →</a>
+        </div>
+        <div class="prose"><Timeline years={recent} compact /></div>
+      </section>
+    )}
+
+    {press.length > 0 && (
+      <section>
+        <div class="section-head">
+          <h2>언론보도</h2>
+          <a href="/archive/press/">전체 보기 →</a>
+        </div>
+        <div class="prose">{press.map((item) => <PressItem item={item} excerpt={false} />)}</div>
+      </section>
+    )}
   </div>
 </Base>
+
+<style>
+  .hero { border-bottom: 1px solid var(--line); padding: 2.5rem 0 2.5rem; margin-bottom: 2rem; }
+  .hero-inner { display: grid; gap: 24px; align-items: center; }
+  @media (min-width: 960px) { .hero-inner { grid-template-columns: 1fr 520px; gap: 48px; } }
+  .vision { font-family: var(--serif); font-size: clamp(1.05rem, 2.2vw, 1.3rem); line-height: 1.7; color: var(--ink); margin-bottom: 1.5rem; }
+  .hero-photo img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+  .sr-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  section > h2:first-child, .section-head h2 { margin-top: 2.5rem; }
+</style>
