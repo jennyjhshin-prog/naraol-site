@@ -1,0 +1,27 @@
+---
+interface Props {
+  title: string;
+  lead?: string;
+}
+const { title, lead } = Astro.props;
+const d = new Date();
+const printed = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+---
+<div class="print-only print-header">(사)나라얼연구소 · {title} · 출력일 <span data-print-date>{printed}</span></div>
+<header class="page-title">
+  <div class="container">
+    <hr class="rule-accent" />
+    <h1>{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+  </div>
+</header>
+<script is:inline>
+  // 출력일은 인쇄하는 날짜로 갱신 (빌드 날짜가 아니라)
+  (function () {
+    var d = new Date();
+    var p = function (n) { return String(n).padStart(2, '0'); };
+    document.querySelectorAll('[data-print-date]').forEach(function (el) {
+      el.textContent = d.getFullYear() + '.' + p(d.getMonth() + 1) + '.' + p(d.getDate());
+    });
+  })();
+</script>
