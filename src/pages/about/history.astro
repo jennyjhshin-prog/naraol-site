@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import Timeline from '../../components/Timeline.astro';
+import { history } from '../../lib/data';
+
+const years = history.filter((y) => y.items.length > 0);
+const first = Math.min(...years.map((y) => y.year));
+---
+<Base title="연혁" description="(사)나라얼연구소의 연도별 주요 활동 기록">
+  <PageTitle title="연혁" lead={`${first}년부터 이어 온 (사)나라얼연구소의 주요 활동입니다. 강좌 회차별 기록은 인문학강좌, 학술대회 기록은 국제학술대회 페이지에 있습니다.`} />
+  <div class="container prose">
+    <Timeline years={years} />
+  </div>
+</Base>

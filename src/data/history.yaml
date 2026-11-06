@@ -1,1 +1,171 @@
-[]
+# 전체 연혁 — 연도별. kind: founding(기관) conference lecture academy culture award etc
+# 출처: 예전 Wix 연혁·블로그·언론보도. 제니의 전체 연혁 문서로 보완 예정.
+- year: 2026
+  items:
+    - date: "2026-01-10"
+      title: "나라얼연구소 2026년 1월 인문학포럼 (경산상엿집 마당)"
+      kind: lecture
+- year: 2025
+  items:
+    - date: "2025-08-09"
+      title: "인문학강좌 「정약용의 흠흠신서 - 생명존중의 법칙」"
+      kind: lecture
+    - date: "2025-11-07"
+      title: "제12회 한국 전통상례문화 전승 및 세계화 방안 국제학술제 「저 세계에 대한 상상력과 공동체의 미덕에서 미래의 문화유산 만들기」"
+      kind: conference
+    - date: "2025-12-18"
+      title: "물볕 동네 배움터 운영"
+      kind: academy
+- year: 2024
+  items:
+    - date: "2024-10-08"
+      title: "제11회 한국 전통상례문화 전승 및 세계화 방안 국제학술제 「세계 유일의 문화 - 경산상엿집과 상례 자료」"
+      kind: conference
+    - title: "인문학강좌·연구소 월례 모임 제169~170회 (2회)"
+      kind: lecture
+- year: 2023
+  items:
+    - date: "2023-05-16"
+      title: "자인면 신관리 상엿집 요여 2점·상여 부재를 경산상엿집으로 이관"
+      kind: culture
+    - date: "2023-11-03"
+      title: "제10회 한국 전통상례문화 전승 및 세계화 방안 국제학술제 「어제를 돌아보고 내일을 생각하는 경산상엿집 10년」"
+      kind: conference
+    - date: "2023-12-28"
+      title: "인문학 포럼 & 음악회 — 승효상 「인문(人文)과 지문(地文)」 (문화공간 물볕)"
+      kind: culture
+    - title: "인문학강좌·연구소 월례 모임 제165~168회 (4회)"
+      kind: lecture
+- year: 2022
+  items:
+    - date: "2022-09"
+      title: "물볕아카데미 2022 가을학기 「승승(承承)로드」"
+      kind: academy
+    - title: "제9회 한국 전통상례문화 전승 및 세계화 방안 국제학술제 「도서(島嶼)의 상례 - 더 나은 삶을 향한 염원」"
+      kind: conference
+    - title: "인문학강좌·연구소 월례 모임 제161~164회 (4회)"
+      kind: lecture
+- year: 2021
+  items:
+    - title: "인문학강좌·연구소 월례 모임 제155~160회 (6회)"
+      kind: lecture
+- year: 2020
+  items:
+    - date: "2020-11-13"
+      title: "제7회 한국 전통상례문화 국제학술세미나 「허조 선생, 禮로 태평성대를 열다」"
+      kind: conference
+    - title: "인문학강좌·연구소 월례 모임 제150~154회 (5회)"
+      kind: lecture
+- year: 2019
+  items:
+    - date: "2019-07-06"
+      title: "「탁와 정기연 선생의 발견」 학술 세미나"
+      kind: etc
+    - date: "2019-10-18"
+      title: "제6회 한국 전통상례문화 학술세미나 「100년 만의 還國 - 만주상여」"
+      kind: conference
+    - title: "인문학강좌·연구소 월례 모임 제136~149회 (14회)"
+      kind: lecture
+- year: 2018
+  items:
+    - date: "2018-10-19"
+      title: "제5회 한국 전통상례문화 국제학술대회 「마침표, 그리고 처음 가는 길」"
+      kind: conference
+    - title: "인문학강좌·연구소 월례 모임 제125~135회 (11회)"
+      kind: lecture
+- year: 2017
+  items:
+    - date: "2017-10-06"
+      title: "전통상례 상복 전시회 (무학산 경산상엿집 마당)"
+      kind: culture
+    - date: "2017-11-03"
+      title: "제4회 전통상례문화 전승 및 세계화를 위한 국제학술세미나 「상엿집 - 산 자의 위로와 죽은 자의 평안」"
+      kind: conference
+    - title: "인문학강좌·연구소 월례 모임 제113~124회 (12회)"
+      kind: lecture
+- year: 2016
+  items:
+    - date: "2016-10-28"
+      title: "제3회 전통상례문화 국제학술세미나 「상엿집 - 지상의 고통에서 영원의 행복으로」"
+      kind: conference
+    - title: "인문학강좌·연구소 월례 모임 제102~112회 (11회)"
+      kind: lecture
+- year: 2015
+  items:
+    - date: "2015-10-30"
+      title: "제2회 전통상례문화 국제학술세미나 「상례 - 죽음과 삶을 잇는 기억의 장치」"
+      kind: conference
+    - title: "인문학강좌·연구소 월례 모임 제90~101회 (12회)"
+      kind: lecture
+- year: 2014
+  items:
+    - date: "2014-09-19"
+      title: "이스탄불 in 경주엑스포 문화교류전 참가 (전통상여행렬)"
+      kind: culture
+    - date: "2014-10-01"
+      title: "국학연구소 대구경북지부를 (사)나라얼연구소로 명칭 통일"
+      kind: founding
+    - date: "2014-10-14"
+      title: "제1회 한국전통상례문화 국제학술세미나 「상엿집 - 순간과 영혼의 만남」"
+      kind: conference
+    - title: "인문학강좌·연구소 월례 모임 제79~89회 (11회)"
+      kind: lecture
+- year: 2013
+  items:
+    - date: "2013-06-14"
+      title: "자인단오제 전통상여행렬 시연 참여"
+      kind: culture
+    - title: "인문학강좌·연구소 월례 모임 제65~78회 (14회)"
+      kind: lecture
+- year: 2012
+  items:
+    - date: "2012-05"
+      title: "성주생명문화축제 심산 김창숙 전통유림장 진행"
+      kind: culture
+    - date: "2012-06-23"
+      title: "자인단오제 전통상여행렬 시연 참여"
+      kind: culture
+    - date: "2012-09-08"
+      title: "경주 전통상여행렬 시연 참여"
+      kind: culture
+    - title: "인문학강좌·연구소 월례 모임 제55~64회 (10회)"
+      kind: lecture
+- year: 2011
+  items:
+    - date: "2011-03"
+      title: "개소 5주년 기념 강연 — 김광언 「한국인과 한국문화」"
+      kind: lecture
+    - date: "2011-06"
+      title: "자인단오제 전통상여행렬 시연 참여"
+      kind: culture
+    - title: "인문학강좌·연구소 월례 모임 제43~54회 (12회)"
+      kind: lecture
+- year: 2010
+  items:
+    - date: "2010-06"
+      title: "경산상엿집의 문화 관광화 방안 세미나 (경일대)"
+      kind: culture
+    - title: "인문학강좌·연구소 월례 모임 제31~42회 (12회)"
+      kind: lecture
+- year: 2009
+  items:
+    - date: "2009-05"
+      title: "영천 자천리 상엿집을 무학산 연구소로 이전·복원 완료 (현 경산상엿집)"
+      kind: founding
+    - title: "인문학강좌·연구소 월례 모임 제18~30회 (13회)"
+      kind: lecture
+- year: 2008
+  items:
+    - title: "인문학강좌·연구소 월례 모임 제7~17회 (11회)"
+      kind: lecture
+- year: 2007
+  items:
+    - date: "2007-01-31"
+      title: "(사)국학연구소 대구경북지부 무학산 연구소 개소, 인문학 월례강좌 시작"
+      kind: founding
+    - title: "인문학강좌·연구소 월례 모임 제1~6회 (6회)"
+      kind: lecture
+- year: 2002
+  items:
+    - title: "조원경·황영례를 중심으로 인문학 연구모임 시작"
+      kind: founding

@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import { org } from '../../lib/data';
+import { formatDate } from '../../lib/format';
+
+const rows: [string, string | undefined][] = [
+  ['법인명', org.name],
+  ['설립일', org.founded && formatDate(org.founded)],
+  ['주무관청', org.registeredBy],
+  ['고유번호', org.regNo],
+  ['대표자', org.representative],
+  ['기부금', org.donationDesignated],
+  ['관리 문화재', org.heritage],
+  ['주소', org.address],
+  ['전화', org.phone],
+];
+const shown = rows.filter((r): r is [string, string] => Boolean(r[1]));
+const mapUrl = `https://map.kakao.com/?q=${encodeURIComponent(org.address)}`;
+---
+<Base title="법인 정보·오시는 길">
+  <PageTitle title="법인 정보·오시는 길" />
+  <div class="container prose">
+    <h2 style="margin-top:0">법인 정보</h2>
+    <table class="info-table">
+      <tbody>
+        {shown.map(([k, v]) => <tr><th scope="row">{k}</th><td>{v}</td></tr>)}
+      </tbody>
+    </table>
+
+    <h2>오시는 길</h2>
+    <p>{org.address}<br />(사)나라얼연구소 · 경산상엿집 (하양 무학산)</p>
+    <p class="no-print">
+      <a class="button" href={mapUrl} target="_blank" rel="noopener">카카오맵에서 보기</a>
+      <a class="button" href={org.kakaoUrl} target="_blank" rel="noopener">카카오톡 문의</a>
+      <a class="button" href={`tel:${org.phone}`}>전화 {org.phone}</a>
+    </p>
+  </div>
+</Base>

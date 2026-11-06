@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import { org } from '../../lib/data';
+---
+<Base title="설립 목적">
+  <PageTitle title="설립 목적" lead="나라의 얼이 담긴 상·제례 문화의 원형을 복원하고 그 독특한 의미를 찾아내어 우리의 정체성과 주체성을 세계에 알리고자 한다" />
+  <div class="container prose">
+    <!-- 확인 필요: 설립 목적 문단은 예전 사이트·언론보도 문구를 바탕으로 정리함. 제니 확인 후 확정 -->
+    <h2>연구소 소개</h2>
+    <p>
+      {org.name}는 2002년 조원경 이사장과 황영례 소장을 중심으로 시작한 인문학 연구모임에서 출발했습니다.
+      2007년 경산 하양 무학산에 연구소를 열고 매달 인문학강좌를 이어 오며, 지역에서 우리 문화의 뿌리를 묻고 배우는 자리를 꾸준히 만들어 왔습니다.
+    </p>
+    <p>
+      연구소는 영천 자천리에서 옮겨 와 복원한 <strong>{org.heritage}</strong>을 보존·관리하며,
+      상엿집과 상여·요여 등 전통 상례 자료를 수집하고 연구합니다.
+      2014년부터는 국내외 학자들과 함께 매년 한국 전통상례문화 국제학술대회를 열어, 우리 고유의 상례문화가 지닌 삶과 죽음의 의미를 세계에 알리고 있습니다.
+    </p>
+
+    <h2>주요 사업</h2>
+    <ul>
+      <li><a href="/programs/conference/">한국 전통상례문화 국제학술대회</a> — 2014년부터 매년 개최</li>
+      <li><a href="/programs/lectures/">인문학강좌</a> — 2007년부터 매달 이어 온 월례 강좌</li>
+      <li><a href="/programs/academy/">물볕아카데미</a> — 고전·문학·미술·음악 시민 인문학 과정</li>
+      <li><a href="/sangyeotjip/">경산상엿집 보존·활용</a> — {org.heritage}</li>
+      <li><a href="/programs/culture/">문화예술행사와 문화공간 물볕</a></li>
+    </ul>
+
+    <h2>더 알아보기</h2>
+    <div class="grid">
+      <a class="card" href="/about/history/"><h3>연혁</h3><p>2002년부터의 주요 활동</p></a>
+      <a class="card" href="/about/people/"><h3>임원</h3><p>이사장과 이사·감사</p></a>
+      <a class="card" href="/about/info/"><h3>법인 정보·오시는 길</h3><p>법인 현황과 주소·연락처</p></a>
+    </div>
+  </div>
+</Base>

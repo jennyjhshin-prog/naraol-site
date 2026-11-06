@@ -1,0 +1,32 @@
+---
+import type { HistoryYear } from '../lib/schemas';
+import { formatDate } from '../lib/format';
+
+interface Props {
+  years: HistoryYear[];
+  compact?: boolean;
+}
+const { years, compact = false } = Astro.props;
+const LIMIT = 4;
+const sorted = [...years].sort((a, b) => b.year - a.year);
+---
+<ol class="timeline">
+  {sorted.map((y) => {
+    const shown = compact ? y.items.slice(0, LIMIT) : y.items;
+    const rest = y.items.length - shown.length;
+    return (
+      <li>
+        <p class="timeline-year">{y.year}</p>
+        <ul class="timeline-items">
+          {shown.map((i) => (
+            <li>
+              {i.date && i.date.length > 4 && <span class="date">{formatDate(i.date).slice(6)}</span>}
+              {i.title}
+            </li>
+          ))}
+          {rest > 0 && <li class="timeline-more">외 {rest}건</li>}
+        </ul>
+      </li>
+    );
+  })}
+</ol>
