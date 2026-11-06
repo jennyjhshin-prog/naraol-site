@@ -1,5 +1,6 @@
 ---
 import { org } from '../lib/data';
+import YouTubeLink from './YouTubeLink.astro';
 const corp = [
   org.representative && `대표자 ${org.representative}`,
   org.regNo && `고유번호 ${org.regNo}`,
@@ -12,6 +13,7 @@ const corp = [
     <p>주소 {org.address} · 전화 <a href={`tel:${org.phone}`}>{org.phone}</a></p>
     <p class="links">
       {org.cafeUrl && <a href={org.cafeUrl} target="_blank" rel="noopener">다음카페</a>}
+      <YouTubeLink showName />
       <a href={org.kakaoUrl} target="_blank" rel="noopener">카카오톡 채널 문의</a>
       <a href="/about/info/">법인 정보·오시는 길</a>
     </p>

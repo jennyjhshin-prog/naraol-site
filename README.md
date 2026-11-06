@@ -25,7 +25,7 @@ npm run check-links  # 깨진 내부 링크·이미지 검사
 
 | 파일 | 내용 | 필드 |
 |---|---|---|
-| `org.yaml` | 법인·연락·후원 정보 | `name` `founded`(YYYY-MM-DD) `registeredBy` `regNo` `representative` `donationDesignated` `address` `phone` `cafeUrl` `kakaoUrl` `bank{name,account,holder}` `dues[{label,amount}]` `heritage` |
+| `org.yaml` | 법인·연락·후원 정보 | `name` `founded`(YYYY-MM-DD) `registeredBy` `regNo` `representative` `donationDesignated` `address` `phone` `cafeUrl` `kakaoUrl` `youtubeUrl` `youtubeName` `bank{name,account,holder}` `dues[{label,amount}]` `heritage` |
 | `history.yaml` | 전체 연혁 (연도별) | `year`, `items[{date?, title, kind?}]` — kind: `founding` `conference` `lecture` `academy` `culture` `award` `etc` |
 | `conferences.yaml` | 국제학술대회 회차 | `no` `year` `date?` `title` `theme?` `venue` `hosts[]` `photo?` `pressUrl?` |
 | `lectures.yaml` | 인문학강좌 회차 | `no` `date` `speaker?` `affiliation?` `topic` |

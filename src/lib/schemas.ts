@@ -13,6 +13,8 @@ export const OrgSchema = z.object({
   phone: z.string(),
   cafeUrl: z.string().url().optional(),
   kakaoUrl: z.string().url(),
+  youtubeUrl: z.string().url().optional(),
+  youtubeName: z.string().optional(),
   bank: z.object({ name: z.string(), account: z.string(), holder: z.string() }),
   dues: z.array(z.object({ label: z.string(), amount: z.number() })),
   heritage: z.string(),

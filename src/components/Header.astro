@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import logo from '../assets/logo.png';
 import { NAV } from '../lib/nav';
 import { org } from '../lib/data';
+import YouTubeLink from './YouTubeLink.astro';
 
 const cafeUrl = org.cafeUrl;
 const path = Astro.url.pathname;
@@ -32,7 +33,10 @@ const isActive = (href: string) => href !== '/' && path.startsWith(href.split('/
           </li>
         ))}
       </ul>
-      {cafeUrl && <a class="cafe" href={cafeUrl} target="_blank" rel="noopener">다음카페</a>}
+      <div class="ext">
+        {cafeUrl && <a class="cafe" href={cafeUrl} target="_blank" rel="noopener">다음카페</a>}
+        <YouTubeLink showName class="yt-head" />
+      </div>
     </nav>
   </div>
 </header>
@@ -75,6 +79,8 @@ const isActive = (href: string) => href !== '/' && path.startsWith(href.split('/
   .sub a:hover { background: var(--paper-deep); }
   .has-sub:hover > .sub, .has-sub:focus-within > .sub { display: block; }
   .cafe { font-size: .88rem; color: var(--ink-soft); border: 1px solid var(--line); padding: .25rem .6rem; text-decoration: none; }
+  .ext { display: flex; align-items: center; gap: .9rem; }
+  @media (min-width: 768px) { .ext :global(.yt-head span) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
   .menu-toggle { display: none; }
 
   @media (max-width: 767px) {
@@ -88,6 +94,6 @@ const isActive = (href: string) => href !== '/' && path.startsWith(href.split('/
     .menu a { padding: .55rem 0; }
     .sub { display: block; position: static; border: 0; padding: 0 0 .4rem 1rem; min-width: 0; background: none; }
     .sub a { padding: .3rem 0; color: var(--ink-soft); }
-    .cafe { align-self: flex-start; margin-top: .5rem; }
+    .ext { margin-top: .5rem; }
   }
 </style>
