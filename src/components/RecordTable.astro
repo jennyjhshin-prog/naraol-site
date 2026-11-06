@@ -1,0 +1,21 @@
+---
+interface Props {
+  columns: { key: string; label: string }[];
+  rows: Record<string, string | number>[];
+  caption: string;
+}
+const { columns, rows, caption } = Astro.props;
+---
+<table class="record-table">
+  <caption>{caption}</caption>
+  <thead>
+    <tr>{columns.map((c) => <th scope="col">{c.label}</th>)}</tr>
+  </thead>
+  <tbody>
+    {rows.map((r) => (
+      <tr>
+        {columns.map((c) => <td data-label={c.label}>{r[c.key] ?? ''}</td>)}
+      </tr>
+    ))}
+  </tbody>
+</table>

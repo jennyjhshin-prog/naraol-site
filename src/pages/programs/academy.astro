@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import { academy } from '../../lib/data';
+---
+<Base title="물볕아카데미" description="시민문화 활성화를 위한 승승(承承)로드 물볕아카데미">
+  <PageTitle title="물볕아카데미" lead="시민문화 활성화를 위한 ‘승승(承承)로드’ 물볕아카데미. 고전·문학·미술·음악·독서를 주제로 지역 주민과 함께 배우는 인문학 과정입니다." />
+  <div class="container">
+    <h2 style="margin-top:0">강좌와 강사</h2>
+    <div class="grid cols-3">
+      {academy.courses.map((c) => (
+        <div class="card">
+          <h3>{c.name}</h3>
+          <p><strong style="color:var(--ink)">{c.teacher}</strong>{c.bio && <><br />{c.bio}</>}</p>
+        </div>
+      ))}
+    </div>
+
+    <h2>학기 기록</h2>
+    <ol class="timeline">
+      {academy.terms.map((t) => (
+        <li>
+          <p class="timeline-year" style="font-size:1.1rem">{t.title}</p>
+          <p class="muted" style="margin:0 0 .3rem">{t.period}</p>
+          <ul class="timeline-items">{t.items.map((i) => <li>{i}</li>)}</ul>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Base>

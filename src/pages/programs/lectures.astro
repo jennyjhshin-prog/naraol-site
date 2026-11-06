@@ -1,0 +1,57 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import RecordTable from '../../components/RecordTable.astro';
+import { lectures } from '../../lib/data';
+import { formatDate } from '../../lib/format';
+
+const total = lectures.length ? Math.max(...lectures.map((l) => l.no)) : 0;
+const byYear = new Map<number, typeof lectures>();
+for (const l of lectures) {
+  const y = Number(l.date.slice(0, 4));
+  byYear.set(y, [...(byYear.get(y) ?? []), l]);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+const first = years.at(-1);
+const content = (l: (typeof lectures)[number]) =>
+  [l.speaker && (l.affiliation ? `${l.speaker}(${l.affiliation})` : l.speaker), l.topic].filter(Boolean).join(' ');
+---
+<Base title="인문학강좌" description="2007년부터 매달 이어 온 (사)나라얼연구소 인문학강좌 회차별 기록">
+  <PageTitle title="인문학강좌" lead="2007년 연구소를 연 뒤로 매달 학자·예술가·종교인을 모셔 우리 역사와 철학, 종교와 예술을 함께 공부해 왔습니다." />
+  <div class="container">
+    {total > 0 && (
+      <div class="stats" style="--n:2">
+        <div class="stat"><div><span class="stat-value">{total}</span><span class="stat-unit">회</span></div><div class="stat-label">누적 강좌·모임 ({first}년부터)</div></div>
+        <div class="stat"><div><span class="stat-value">{years.length}</span><span class="stat-unit">년</span></div><div class="stat-label">기록된 운영 연도</div></div>
+      </div>
+    )}
+    <p class="muted" style="margin-top:1rem">회차에는 강좌와 함께 나라배움 답사, 학술 세미나, 이사회 등 연구소 월례 모임이 포함되어 있습니다.</p>
+    {years.map((y, i) => (
+      <details class="year" open={i === 0}>
+        <summary>{y}년 <span class="count">{byYear.get(y)!.length}회</span></summary>
+        <RecordTable
+          caption={`${y}년 인문학강좌`}
+          columns={[
+            { key: 'no', label: '회차' },
+            { key: 'date', label: '일자' },
+            { key: 'content', label: '강사·주제' },
+          ]}
+          rows={byYear.get(y)!.sort((a, b) => a.no - b.no).map((l) => ({ no: `${l.no}회`, date: formatDate(l.date), content: content(l) }))}
+        />
+      </details>
+    ))}
+  </div>
+</Base>
+
+<script is:inline>
+  // 인쇄할 때는 모든 연도를 펼친다
+  window.addEventListener('beforeprint', function () {
+    document.querySelectorAll('details.year').forEach(function (d) {
+      d.dataset.wasOpen = d.open ? '1' : '';
+      d.open = true;
+    });
+  });
+  window.addEventListener('afterprint', function () {
+    document.querySelectorAll('details.year').forEach(function (d) { d.open = d.dataset.wasOpen === '1'; });
+  });
+</script>

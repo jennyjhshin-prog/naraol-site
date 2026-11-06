@@ -1,0 +1,49 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import Timeline from '../../components/Timeline.astro';
+import { books, history } from '../../lib/data';
+
+const cultureYears = history
+  .map((y) => ({ year: y.year, items: y.items.filter((i) => i.kind === 'culture') }))
+  .filter((y) => y.items.length > 0);
+---
+<Base title="문화예술행사·문화공간 물볕">
+  <PageTitle title="문화예술행사 · 문화공간 물볕" lead="지역 상여문화의 보존과 홍보를 위해 전통 상여행렬 시연, 전시, 음악회 등 다양한 문화예술 행사를 열고 있습니다." />
+  <div class="container">
+    <div class="prose">
+      <h2 style="margin-top:0">문화예술행사</h2>
+      <p>
+        나라얼연구소는 지역 상여문화의 보존과 홍보를 위해 다양한 문화예술 행사를 선보입니다.
+        예술가와 예술 애호가를 위한 프로그램을 통해 예술과 문화의 가치를 전하고 나눕니다.
+      </p>
+      {cultureYears.length > 0 && <Timeline years={cultureYears} />}
+    </div>
+
+    <h2>문화공간 물볕</h2>
+    <p class="prose">
+      경산 하양읍 무학로에 있는 문화공간 물볕은 <strong>물볕서점</strong>, <strong>다방물볕</strong>, <strong>물볕갤러리</strong>로 이루어진 지역 문화 거점입니다.
+      물볕아카데미와 음악산책, 인문학 포럼·음악회가 이곳에서 열립니다.
+    </p>
+
+    {books.length > 0 && (
+      <>
+        <h3>물볕서점 추천도서</h3>
+        <ul class="books">
+          {books.map((b) => (
+            <li>
+              <strong>{b.title}</strong> <span class="muted">{b.author} · {b.publisher}</span>
+              {b.note && <div class="muted">{b.note}</div>}
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </div>
+</Base>
+
+<style>
+  .books { list-style: none; padding: 0; margin: 0; display: grid; gap: 0 32px; }
+  @media (min-width: 768px) { .books { grid-template-columns: repeat(2, 1fr); } }
+  .books li { border-top: 1px solid var(--line); padding: .7rem 0; font-size: .95rem; }
+</style>

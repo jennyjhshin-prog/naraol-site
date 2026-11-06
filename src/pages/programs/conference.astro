@@ -1,0 +1,49 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import RecordTable from '../../components/RecordTable.astro';
+import { conferences, org } from '../../lib/data';
+import { formatDate } from '../../lib/format';
+
+const sorted = [...conferences].sort((a, b) => b.no - a.no);
+const total = conferences.length ? Math.max(...conferences.map((c) => c.no)) : 0;
+const first = conferences.length ? Math.min(...conferences.map((c) => c.year)) : undefined;
+const rows = sorted.map((c) => ({
+  no: `제${c.no}회`,
+  date: c.date ? formatDate(c.date) : String(c.year),
+  title: c.theme ? `${c.title} — ${c.theme}` : c.title,
+  venue: c.venue,
+  hosts: c.hosts.join(', '),
+}));
+---
+<Base title="국제학술대회" description="2014년부터 매년 열어 온 한국 전통상례문화 국제학술대회 회차별 기록">
+  <PageTitle title="한국 전통상례문화 국제학술대회" lead="한국 전통상례문화의 전승과 세계화를 위해 국내외 학자와 전문가가 경산에 모여 연구를 발표하고 토론하는 학술대회입니다." />
+  <div class="container">
+    {total > 0 && (
+      <div class="stats" style={`--n:2`}>
+        <div class="stat"><div><span class="stat-value">{total}</span><span class="stat-unit">회</span></div><div class="stat-label">누적 개최 ({first}년부터)</div></div>
+        <div class="stat"><div><span class="stat-value">매년</span></div><div class="stat-label">대구가톨릭대학교 · 경산상엿집 일원</div></div>
+      </div>
+    )}
+    <div class="prose">
+      <h2>소개</h2>
+      <p>
+        2014년 제1회를 시작으로 해마다 열리는 국제학술대회는 민족마다 다른 상례문화를 비교하고, 우리 고유의 상례문화에 담긴 삶과 죽음의 의미를 되새기는 자리입니다.
+        학술 발표·종합토론과 함께 전통 상여행렬 시연, {org.heritage} 소장 상여·요여 전시, 사진전이 함께 열립니다.
+      </p>
+    </div>
+    <h2>회차별 기록</h2>
+    <RecordTable
+      caption="국제학술대회 회차별 기록 (최근 순)"
+      columns={[
+        { key: 'no', label: '회차' },
+        { key: 'date', label: '일자' },
+        { key: 'title', label: '대회명·주제' },
+        { key: 'venue', label: '장소' },
+        { key: 'hosts', label: '주최' },
+      ]}
+      rows={rows}
+    />
+    <p class="muted">기록에 빠진 회차는 자료를 확인해 추가합니다.</p>
+  </div>
+</Base>
