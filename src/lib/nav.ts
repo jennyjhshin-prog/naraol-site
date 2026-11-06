@@ -30,5 +30,5 @@ export const NAV: NavItem[] = [
       { label: '사진 기록', href: '/archive/photos/' },
     ],
   },
-  { label: '함께하기', href: '/support/' },
+  { label: '후원', href: '/support/' },
 ];
