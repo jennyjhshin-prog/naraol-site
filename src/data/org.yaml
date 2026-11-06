@@ -1,0 +1,23 @@
+# 법인·연락 정보 — 꼬리말, 법인 정보, 후원 페이지, 홈 숫자가 함께 씁니다.
+# 법인 필드(founded, registeredBy, regNo, representative, donationDesignated)는
+# 제니가 법인 정보를 주면 채웁니다. 비어 있으면 화면에서 해당 칸이 숨겨집니다.
+name: (사)나라얼연구소
+# founded: 2007-01-31      # 설립일 YYYY-MM-DD
+# registeredBy:            # 주무관청
+# regNo:                   # 고유번호
+# representative:          # 대표자
+donationDesignated: 회비는 문화보존 및 학술연구에 관한 지정기부금에 해당되어 기부금 영수증이 발급됩니다
+address: 경북 경산시 하양읍 무학로62길 162
+phone: 010-8101-2414
+# cafeUrl:                 # 다음카페 주소
+kakaoUrl: http://pf.kakao.com/_tSdcn/chat
+bank:
+  name: 농협은행
+  account: 351-0517-5594-13
+  holder: 황영례
+dues:
+  - label: 연구회원
+    amount: 30000
+  - label: 일반회원
+    amount: 10000
+heritage: 국가민속문화재 제266호 경산상엿집

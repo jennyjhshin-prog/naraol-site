@@ -2,8 +2,9 @@
 import { Image } from 'astro:assets';
 import logo from '../assets/logo.png';
 import { NAV } from '../lib/nav';
+import { org } from '../lib/data';
 
-const cafeUrl: string | undefined = undefined;
+const cafeUrl = org.cafeUrl;
 const path = Astro.url.pathname;
 const isActive = (href: string) => href !== '/' && path.startsWith(href.split('/').slice(0, 2).join('/') + '/');
 ---
