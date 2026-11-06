@@ -1,7 +1,8 @@
 // 예전 Wix 사이트 이미지를 원본 해상도로 내려받는다.
 // 사용법: node scripts/wix-media.mjs <목록.txt> <출력폴더>
 // 목록 한 줄: `URL [파일명]` — URL의 `/v1/...` 이하는 잘라내 원본을 받는다. 이미 있는 파일은 건너뛴다.
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { basename, join } from 'node:path';
 
 export function originalUrl(url) {
@@ -41,6 +42,7 @@ async function main() {
   }
 }
 
-if (import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/')}` || process.argv[1]?.endsWith('wix-media.mjs')) {
+const real = (p) => realpathSync(p).toLowerCase();
+if (process.argv[1] && real(fileURLToPath(import.meta.url)) === real(process.argv[1])) {
   main();
 }

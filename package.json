@@ -12,7 +12,7 @@
     "astro": "astro"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.19"
   },
   "dependencies": {
     "@fontsource/noto-serif-kr": "^5.3.1",

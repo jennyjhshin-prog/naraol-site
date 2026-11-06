@@ -1,6 +1,6 @@
 // 빌드 결과(dist)의 내부 링크·이미지가 실제 파일을 가리키는지 검사한다.
 // 사용법: node scripts/check-links.mjs dist   (깨진 링크가 있으면 종료 코드 1)
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, realpathSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -40,26 +40,42 @@ function exists(distDir, link) {
 
 /** @returns {Promise<string[]>} `"<페이지> -> <링크>"` 목록 */
 export async function findBrokenLinks(distDir) {
+  return (await scan(distDir)).broken;
+}
+
+async function scan(distDir) {
   const broken = [];
+  let pages = 0;
+  let links = 0;
   for (const file of htmlFiles(distDir).sort()) {
+    pages++;
     const page = relative(distDir, file).split(sep).join('/');
     const seen = new Set();
     for (const link of linksIn(readFileSync(file, 'utf8'))) {
       if (!link.startsWith('/') || link.startsWith('//')) continue;
       if (seen.has(link)) continue;
       seen.add(link);
+      links++;
       if (!exists(distDir, link)) broken.push(`${page} -> ${link}`);
     }
   }
-  return broken;
+  return { broken, pages, links };
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+const real = (p) => {
+  try {
+    return realpathSync(p).toLowerCase();
+  } catch {
+    return p.toLowerCase();
+  }
+};
+
+if (process.argv[1] && real(fileURLToPath(import.meta.url)) === real(process.argv[1])) {
   const dir = process.argv[2] ?? 'dist';
-  const broken = await findBrokenLinks(dir);
+  const { broken, pages, links } = await scan(dir);
   if (broken.length) {
     console.error(`깨진 링크 ${broken.length}건:\n${broken.join('\n')}`);
     process.exit(1);
   }
-  console.log('깨진 링크 없음');
+  console.log(`깨진 링크 없음 (${pages}개 페이지, ${links}개 링크 검사)`);
 }

@@ -36,3 +36,23 @@ test('ignores external, mailto, tel and hash links and checks srcset', async () 
   });
   expect(await findBrokenLinks(dir)).toEqual(['index.html -> /b.webp']);
 });
+
+test('CLI reports broken links even when invoked with a differently-cased path', async () => {
+  const { spawnSync } = await import('node:child_process');
+  const { resolve } = await import('node:path');
+  const dir = site({ 'index.html': '<a href="/nope/">x</a>' });
+  let script = resolve('scripts/check-links.mjs');
+  script = /^[A-Z]:/.test(script) ? script[0].toLowerCase() + script.slice(1) : script;
+  const r = spawnSync(process.execPath, [script, dir], { encoding: 'utf8' });
+  expect(r.status).toBe(1);
+  expect(r.stderr).toContain('index.html -> /nope/');
+});
+
+test('CLI prints how many pages and links it checked on a clean run', async () => {
+  const { spawnSync } = await import('node:child_process');
+  const dir = site({ 'index.html': '<a href="/">home</a>', 'a/index.html': '<a href="/a/">a</a>' });
+  const r = spawnSync(process.execPath, ['scripts/check-links.mjs', dir], { encoding: 'utf8' });
+  expect(r.status).toBe(0);
+  expect(r.stdout).toContain('2개 페이지');
+  expect(r.stdout).toContain('2개 링크');
+});

@@ -24,3 +24,9 @@ export function recentHistory(history: History, n = 3): HistoryYear[] {
     .sort((a, b) => b.year - a.year)
     .slice(0, n);
 }
+
+/** 항목이 있는 연도 중 가장 이른 해. 없으면 undefined. */
+export function firstYear(history: History): number | undefined {
+  const years = history.filter((y) => y.items.length > 0).map((y) => y.year);
+  return years.length ? Math.min(...years) : undefined;
+}

@@ -6,7 +6,7 @@ Astro로 만든 정적 사이트이고, GitHub Pages에 자동 배포됩니다.
 
 ## 미리보기
 
-Node.js 20 이상이 필요합니다.
+Node.js 22.19 이상이 필요합니다.
 
 ```bash
 npm install        # 처음 한 번
