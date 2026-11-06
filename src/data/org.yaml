@@ -9,7 +9,7 @@ name: (사)나라얼연구소
 donationDesignated: 회비는 문화보존 및 학술연구에 관한 지정기부금에 해당되어 기부금 영수증이 발급됩니다
 address: 경북 경산시 하양읍 무학로62길 162
 phone: 010-8101-2414
-# cafeUrl:                 # 다음카페 주소
+cafeUrl: https://cafe.daum.net/dagugukhak   # 제12회 학술제 포스터에 표기된 주소 (제니 확인)
 kakaoUrl: http://pf.kakao.com/_tSdcn/chat
 bank:
   name: 농협은행

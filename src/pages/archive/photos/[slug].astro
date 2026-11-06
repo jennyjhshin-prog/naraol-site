@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import PageTitle from '../../../components/PageTitle.astro';
+import PhotoFigure from '../../../components/PhotoFigure.astro';
+import { formatDate } from '../../../lib/format';
+import { isoDay, photosIn } from '../../../lib/photos';
+
+export async function getStaticPaths() {
+  const records = await getCollection('photos');
+  return records.map((r) => ({ params: { slug: r.id }, props: { record: r } }));
+}
+
+const { record } = Astro.props as { record: CollectionEntry<'photos'> };
+const date = formatDate(isoDay(record.data.date));
+const photos = photosIn(record.id);
+---
+<Base title={record.data.title}>
+  <PageTitle title={record.data.title} lead={`${date} · 사진 ${photos.length}장`} />
+  <div class="container">
+    <div class="photo-grid">
+      {photos.map((p, i) => <PhotoFigure src={p} caption={`${date} ${record.data.title} (${i + 1})`} />)}
+    </div>
+    <p class="no-print" style="margin-top:2rem"><a href="/archive/photos/">← 사진 기록 목록</a></p>
+  </div>
+</Base>

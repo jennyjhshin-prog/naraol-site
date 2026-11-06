@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import PressItem from '../../components/PressItem.astro';
+
+const items = (await getCollection('press')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+<Base title="언론보도" description="(사)나라얼연구소 활동을 다룬 언론 보도">
+  <PageTitle title="언론보도" lead={`(사)나라얼연구소의 활동을 다룬 신문·잡지 보도 ${items.length}건`} />
+  <div class="container prose">
+    {items.map((item) => <PressItem item={item} />)}
+  </div>
+</Base>

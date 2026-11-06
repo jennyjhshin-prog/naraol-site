@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import PageTitle from '../../../components/PageTitle.astro';
+import { formatDate } from '../../../lib/format';
+import { isoDay, photosIn } from '../../../lib/photos';
+
+const records = (await getCollection('photos')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+<Base title="사진 기록" description="(사)나라얼연구소 행사별 사진 기록">
+  <PageTitle title="사진 기록" lead="학술대회와 행사의 사진 기록입니다." />
+  <div class="container">
+    <div class="grid cols-3">
+      {records.map((r) => (
+        <a class="card photo-card" href={`/archive/photos/${r.id}/`}>
+          <Image src={r.data.cover} alt="" widths={[480, 720]} sizes="(min-width: 960px) 360px, 100vw" />
+          <h3>{r.data.title}</h3>
+          <p>{formatDate(isoDay(r.data.date))} · 사진 {photosIn(r.id).length}장</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .photo-card { padding: 0 0 1rem; }
+  .photo-card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: .8rem; }
+  .photo-card h3, .photo-card p { padding: 0 1rem; }
+</style>

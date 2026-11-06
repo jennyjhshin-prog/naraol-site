@@ -1,0 +1,51 @@
+---
+import type { ImageMetadata } from 'astro';
+import Base from '../layouts/Base.astro';
+import PageTitle from '../components/PageTitle.astro';
+import PhotoFigure from '../components/PhotoFigure.astro';
+import { org } from '../lib/data';
+
+const files = import.meta.glob<{ default: ImageMetadata }>('/src/assets/sangyeotjip/*.{jpg,jpeg,png,webp}', { eager: true });
+const photos = Object.keys(files).sort().map((k) => files[k].default);
+---
+<Base title="경산상엿집" description={`${org.heritage} — 1891년에 세워진 상엿집과 상례 자료`}>
+  <PageTitle title="경산상엿집" lead={`${org.heritage}. 1891년에 세워진 상엿집을 (사)나라얼연구소가 보존·관리하고 있습니다.`} />
+  <div class="container">
+    <div class="prose">
+      <p class="heritage"><span>{org.heritage}</span></p>
+      <p>
+        경산 상엿집은 본래 영천시 자천리에 있던 것을 현 위치에 이건한 것으로, 건립 당시 상량문이 남아 있어
+        1891년에 세워진 것임을 알 수 있다.
+      </p>
+      <p>
+        일반 상엿집이 흙벽과 평지 바닥으로 되어 있는 데 비하여 경산 상엿집은 세 칸 규모의 판벽과 우물마루로 되어 있다는 점에서
+        건축학적인 가치가 있다.
+      </p>
+      <p>
+        또한 이 상엿집 속에서는 1891년 상엿집 건립 전후 시기의 상엿계 운영에 관한 구체적이고 다양한 모습을 보여주는 문서와
+        마을 공동체의 풍속, 촌락의 사회경제 활동 등 당시 마을공동체의 현황을 엿볼 수 있는 동중문서(洞中文書)들이 함께 발견되어
+        민속학적·학술적 가치 등 문화유산적 가치가 충분하다.
+      </p>
+      <h2>보존과 활용</h2>
+      <ul>
+        <li>2009년 영천 자천리 상엿집을 하양 무학산으로 옮겨 복원</li>
+        <li>상여 20여 틀과 요여, 각종 상여 도구를 수집·전시 (만주 안도현 상여, 전통 목상여, 기독교 꽃상여 등)</li>
+        <li>2014년부터 매년 <a href="/programs/conference/">한국 전통상례문화 국제학술대회</a>와 전통 상여행렬 시연 개최</li>
+        <li>2023년 자인면 신관리 상엿집의 요여 2점과 상여 부재를 이관해 보존</li>
+      </ul>
+    </div>
+
+    {photos.length > 0 && (
+      <>
+        <h2>사진</h2>
+        <div class="photo-grid">
+          {photos.map((p, i) => <PhotoFigure src={p} caption={`경산상엿집 사진 ${i + 1}`} />)}
+        </div>
+      </>
+    )}
+  </div>
+</Base>
+
+<style>
+  .heritage span { display: inline-block; border: 1px solid var(--accent); color: var(--accent); font-family: var(--serif); font-weight: 700; padding: .3rem .8rem; }
+</style>

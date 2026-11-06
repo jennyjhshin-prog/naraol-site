@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import { formatDate } from '../lib/format';
+import { isoDay } from '../lib/photos';
+
+interface Props {
+  item: CollectionEntry<'press'>;
+  excerpt?: boolean;
+}
+const { item, excerpt = true } = Astro.props;
+const { title, outlet, date, url, thumbnail } = item.data;
+const { Content } = await render(item);
+---
+<article class="press">
+  {thumbnail && <Image src={thumbnail} alt="" width={160} height={110} class="thumb" />}
+  <div>
+    <p class="meta">{outlet} · {formatDate(isoDay(date))}</p>
+    <h3>{url ? <a href={url} target="_blank" rel="noopener">{title}</a> : title}</h3>
+    {excerpt && <div class="excerpt"><Content /></div>}
+  </div>
+</article>
+
+<style>
+  .press { display: flex; gap: 1rem; border-top: 1px solid var(--line); padding: 1rem 0; break-inside: avoid; }
+  .thumb { width: 120px; height: 84px; object-fit: cover; flex: none; }
+  .meta { color: var(--accent); font-size: .85rem; margin: 0 0 .2rem; font-weight: 600; }
+  h3 { margin: 0 0 .3rem; font-size: 1.05rem; }
+  .excerpt :global(p) { margin: 0; color: var(--ink-soft); font-size: .93rem; }
+</style>
