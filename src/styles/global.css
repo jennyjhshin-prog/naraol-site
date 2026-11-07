@@ -1,10 +1,15 @@
 :root {
-  --paper: #F5F0E6;
-  --paper-deep: #EAE2D2;
-  --ink: #2B2B2B;
-  --ink-soft: #5A554D;
-  --accent: #A83A2E;
-  --line: #D6CCB8;
+  --paper: #F4EEE2;
+  --paper-deep: #E9E0CE;
+  --ink: #26221E;
+  --ink-soft: #5A534A;
+  --ink-deep: #17140F;
+  --accent: #9B2D24;
+  --gold: #A6864B;
+  --gold-soft: #CDB585;
+  --line: #D5CAB4;
+  /* 회문(回紋) 띠 — 금박색 */
+  --fret: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 11.5h12V.5H2v7h6V4H5M12 11.5h12' fill='none' stroke='%23A6864B' stroke-width='1'/%3E%3C/svg%3E");
   --serif: 'Noto Serif KR', 'Nanum Myeongjo', serif;
   --sans: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   color-scheme: light;
@@ -16,7 +21,9 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
-  background: var(--paper);
+  background-color: var(--paper);
+  /* 한지 결 — 아주 옅은 노이즈 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .18 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   color: var(--ink);
   font-family: var(--sans);
   font-size: 17px;
@@ -52,10 +59,12 @@ main { padding: 0 0 4rem; min-height: 60vh; }
 
 /* 구분선 */
 .rule { border: 0; border-top: 1px solid var(--line); margin: 2.5rem 0; }
-.rule-accent { width: 40px; border: 0; border-top: 2px solid var(--accent); margin: 0 0 1rem; }
+.rule-accent { width: 48px; border: 0; border-top: 2px solid var(--gold); margin: 0 0 1rem; }
+.fret { height: 12px; background: var(--fret) repeat-x center; border: 0; margin: 0; }
 
 /* 페이지 제목 */
-.page-title { padding: 3rem 0 1.5rem; border-bottom: 1px solid var(--line); margin-bottom: 2rem; }
+.page-title { padding: 3.25rem 0 1.75rem; margin-bottom: 2.25rem; position: relative; }
+.page-title::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 12px; background: var(--fret) repeat-x center; opacity: .75; }
 .page-title .lead { color: var(--ink-soft); font-size: 1.05rem; margin: 0; max-width: 760px; }
 
 /* 카드 그리드 1 → 2 → 3열 */
@@ -74,7 +83,8 @@ main { padding: 0 0 4rem; min-height: 60vh; }
   color: var(--ink);
   display: block;
 }
-a.card:hover { border-color: var(--accent); }
+.card { transition: border-color .2s, box-shadow .2s; }
+a.card:hover { border-color: var(--gold); box-shadow: 0 8px 22px -14px rgba(23, 20, 15, .5); }
 .card h3 { margin: 0 0 .4rem; }
 .card p { margin: 0; color: var(--ink-soft); font-size: .95rem; }
 
@@ -134,6 +144,10 @@ figcaption { color: var(--ink-soft); font-size: .88rem; padding-top: .4rem; }
   text-decoration: none; font-weight: 600; background: transparent;
 }
 .button:hover { background: var(--ink); color: var(--paper); }
+.button.gold { border-color: var(--gold-soft); color: #F4EEE2; }
+.button.gold:hover { background: var(--gold-soft); color: var(--ink-deep); }
+.button.solid { background: var(--accent); border-color: var(--accent); color: #fff; }
+.button.solid:hover { background: #7E2219; border-color: #7E2219; color: #fff; }
 
 .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
 .section-head h2 { margin-bottom: .8rem; }

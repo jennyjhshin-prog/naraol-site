@@ -2,62 +2,109 @@
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import StatBlock from '../components/StatBlock.astro';
 import Timeline from '../components/Timeline.astro';
 import PressItem from '../components/PressItem.astro';
-import hero from '../assets/sangyeotjip/sangyeotjip-01.jpg';
+import hero from '../assets/sangyeotjip/sangyeotjip-02.jpg';
+import procession from '../assets/sangyeotjip/sangyeotjip-21.jpg';
 import { conferences, history, lectures, org } from '../lib/data';
 import { homeStats, recentHistory } from '../lib/stats';
 
-const stats = homeStats({ org, conferences, lectures }, new Date());
+// 숫자 띠: 문화재 항목은 값(제266호)이 이름에 겹치지 않게 이름에서 호수를 뺀다
+const stats = homeStats({ org, conferences, lectures }, new Date()).map((s) => ({
+  ...s,
+  label: typeof s.value === 'string' ? s.label.replace(s.value, '').replace(/\s+/g, ' ').trim() : s.label,
+}));
 const recent = recentHistory(history, 3);
 const press = (await getCollection('press')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
 
 const programs = [
-  { title: '국제학술대회', href: '/programs/conference/', text: '2014년부터 매년 국내외 학자와 함께 한국 전통상례문화를 조명합니다.' },
-  { title: '인문학강좌', href: '/programs/lectures/', text: '2007년부터 매달 역사·철학·종교·예술 강좌를 이어 왔습니다.' },
-  { title: '물볕아카데미', href: '/programs/academy/', text: '고전·문학·미술·음악을 주민과 함께 배우는 시민 인문학 과정입니다.' },
-  { title: '경산상엿집 보존·활용', href: '/sangyeotjip/', text: `${org.heritage}을 보존하고 상례 자료를 수집·전시합니다.` },
+  { no: '壹', title: '국제학술대회', href: '/programs/conference/', text: '2014년부터 매년 국내외 학자와 함께 한국 전통상례문화를 조명합니다.' },
+  { no: '貳', title: '인문학강좌', href: '/programs/lectures/', text: '2007년부터 매달 역사·철학·종교·예술 강좌를 이어 왔습니다.' },
+  { no: '參', title: '물볕아카데미', href: '/programs/academy/', text: '고전·문학·미술·음악을 주민과 함께 배우는 시민 인문학 과정입니다.' },
+  { no: '肆', title: '경산상엿집 보존·활용', href: '/sangyeotjip/', text: `${org.heritage}을 보존하고 상례 자료를 수집·전시합니다.` },
 ];
 ---
 <Base title="(사)나라얼연구소">
-  <section class="hero">
+  <section class="hero" aria-labelledby="hero-title">
+    <Image class="hero-bg" src={hero} alt="" widths={[960, 1600, 2000]} sizes="100vw" loading="eager" fetchpriority="high" />
+    <div class="hero-shade" aria-hidden="true"></div>
+    <p class="hero-vertical" aria-hidden="true">{org.heritage}</p>
+
     <div class="container hero-inner">
-      <div class="hero-text">
-        <hr class="rule-accent" />
-        <h1>{org.name}</h1>
-        <p class="vision">나라의 얼이 담긴 상·제례 문화의 원형을 복원하고 그 독특한 의미를 찾아내어 우리의 정체성과 주체성을 세계에 알리고자 한다</p>
-        <p class="no-print"><a class="button" href="/about/">연구소 소개</a> <a class="button" href="/about/history/">연혁 보기</a></p>
+      <p class="eyebrow rise">한국 전통 상·제례 문화 연구</p>
+      <div class="title-row rise">
+        <h1 id="hero-title"><span class="h1-pre">사단법인</span>나라얼연구소</h1>
+        <span class="seal" aria-hidden="true"><span>나라</span><span>얼</span></span>
       </div>
-      <figure class="hero-photo">
-        <Image src={hero} alt="경산상엿집 전경" widths={[640, 1080]} sizes="(min-width: 960px) 520px, 100vw" loading="eager" />
-        <figcaption>{org.heritage}</figcaption>
-      </figure>
+      <p class="vision rise">
+        나라의 얼이 담긴 상·제례 문화의 원형을 복원하고<br class="pc" />
+        그 독특한 의미를 찾아내어<br class="pc" />
+        우리의 정체성과 주체성을 세계에 알리고자 한다
+      </p>
+      <p class="actions rise no-print">
+        <a class="button solid" href="/about/">연구소 소개</a>
+        <a class="button gold" href="/about/history/">연혁 보기</a>
+      </p>
+    </div>
+
+    {stats.length > 0 && (
+      <div class="hero-stats">
+        <h2 class="sr-only">숫자로 보는 나라얼</h2>
+        <dl class="container stat-row" style={`--n:${stats.length}`}>
+          {stats.map((s) => (
+            <div class="stat-cell">
+              <dt>{s.label}</dt>
+              <dd><span class="num">{s.value}</span>{s.unit && <span class="unit">{s.unit}</span>}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    )}
+  </section>
+
+  <div class="container">
+    <section class="programs">
+      <header class="sec-head">
+        <p class="sec-eyebrow">主要事業</p>
+        <h2>주요 사업</h2>
+      </header>
+      <ol class="program-list">
+        {programs.map((p) => (
+          <li>
+            <a href={p.href}>
+              <span class="p-no" aria-hidden="true">{p.no}</span>
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+              <span class="p-more" aria-hidden="true">자세히 →</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  </div>
+
+  <section class="band" aria-labelledby="band-title">
+    <Image class="band-bg" src={procession} alt="" widths={[960, 1600]} sizes="100vw" />
+    <div class="band-shade" aria-hidden="true"></div>
+    <div class="container band-inner">
+      <p class="sec-eyebrow light">慶山 喪輿집</p>
+      <h2 id="band-title">경산상엿집</h2>
+      <p>
+        영천 자천리에서 옮겨 와 복원한 {org.heritage}.
+        상여와 요여 등 전통 상례 자료를 보존하고, 상여행렬 시연과 문화예술행사로 그 의미를 오늘에 전합니다.
+      </p>
+      <p class="no-print"><a class="button gold" href="/sangyeotjip/">경산상엿집 둘러보기</a></p>
     </div>
   </section>
 
   <div class="container">
-    <section>
-      <h2 class="sr-title">숫자로 보는 나라얼</h2>
-      <StatBlock stats={stats} />
-    </section>
-
-    <section>
-      <h2>주요 사업</h2>
-      <div class="grid cols-4">
-        {programs.map((p) => (
-          <a class="card" href={p.href}>
-            <h3>{p.title}</h3>
-            <p>{p.text}</p>
-          </a>
-        ))}
-      </div>
-    </section>
-
     {recent.length > 0 && (
       <section>
         <div class="section-head">
-          <h2>최근 3년 주요 실적</h2>
+          <header class="sec-head">
+            <p class="sec-eyebrow">近年 實績</p>
+            <h2>최근 3년 주요 실적</h2>
+          </header>
           <a href="/about/history/">전체 연혁 보기 →</a>
         </div>
         <div class="prose"><Timeline years={recent} compact /></div>
@@ -67,7 +114,10 @@ const programs = [
     {press.length > 0 && (
       <section>
         <div class="section-head">
-          <h2>언론보도</h2>
+          <header class="sec-head">
+            <p class="sec-eyebrow">言論報道</p>
+            <h2>언론보도</h2>
+          </header>
           <a href="/archive/press/">전체 보기 →</a>
         </div>
         <div class="prose">{press.map((item) => <PressItem item={item} excerpt={false} />)}</div>
@@ -77,11 +127,96 @@ const programs = [
 </Base>
 
 <style>
-  .hero { border-bottom: 1px solid var(--line); padding: 2.5rem 0 2.5rem; margin-bottom: 2rem; }
-  .hero-inner { display: grid; gap: 24px; align-items: center; }
-  @media (min-width: 960px) { .hero-inner { grid-template-columns: 1fr 520px; gap: 48px; } }
-  .vision { font-family: var(--serif); font-size: clamp(1.05rem, 2.2vw, 1.3rem); line-height: 1.7; color: var(--ink); margin-bottom: 1.5rem; }
-  .hero-photo img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
-  .sr-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  section > h2:first-child, .section-head h2 { margin-top: 2.5rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ── 첫 화면 ───────────────────────── */
+  .hero { position: relative; isolation: isolate; overflow: hidden; color: #F4EEE2; background: var(--ink-deep); min-height: min(92vh, 860px); display: flex; flex-direction: column; justify-content: flex-end; }
+  .hero :global(.hero-bg) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; z-index: -2; filter: saturate(.7) contrast(1.05); }
+  .hero-shade { position: absolute; inset: 0; z-index: -1;
+    background:
+      linear-gradient(180deg, rgba(23, 20, 15, .35) 0%, rgba(23, 20, 15, .15) 30%, rgba(23, 20, 15, .82) 78%, rgba(23, 20, 15, .95) 100%),
+      linear-gradient(90deg, rgba(23, 20, 15, .78) 0%, rgba(23, 20, 15, .35) 55%, rgba(23, 20, 15, .1) 100%); }
+  .hero-inner { padding-top: 5rem; padding-bottom: 2.5rem; width: 100%; }
+
+  .eyebrow { color: var(--gold-soft); font-size: .9rem; letter-spacing: .32em; margin: 0 0 1.1rem; display: flex; align-items: center; gap: .9rem; }
+  .eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--gold-soft); }
+
+  .title-row { display: flex; align-items: flex-start; gap: 1.1rem; }
+  h1 { font-size: clamp(2.6rem, 8.5vw, 5.4rem); line-height: 1.1; letter-spacing: -.02em; margin: 0 0 1.6rem; color: #FBF7EF; text-shadow: 0 2px 24px rgba(0, 0, 0, .35); }
+  .h1-pre { display: block; font-size: .3em; letter-spacing: .5em; font-weight: 500; color: #E6DCCB; margin-bottom: .6em; }
+
+  /* 낙관 */
+  .seal { flex: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: clamp(48px, 7vw, 66px); aspect-ratio: 1; margin-top: clamp(1.4rem, 3.5vw, 2.6rem);
+    background: var(--accent); color: #F8EDE4; font-family: var(--serif); font-weight: 700; line-height: 1.05; font-size: clamp(.82rem, 1.25vw, 1.05rem);
+    border-radius: 4px; box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .18), inset 0 0 0 4px var(--accent), inset 0 0 0 5px rgba(255, 255, 255, .35); transform: rotate(-3deg); }
+
+  .vision { font-family: var(--serif); font-size: clamp(1.05rem, 2.1vw, 1.32rem); line-height: 1.85; color: #EDE5D6; max-width: 36em; border-left: 2px solid var(--gold); padding-left: 1.2rem; margin: 0 0 2rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: .7rem; margin: 0; }
+  .actions .button { padding: .75rem 1.5rem; letter-spacing: .04em; }
+
+  .hero-vertical { position: absolute; right: clamp(16px, 4vw, 56px); top: 3rem; writing-mode: vertical-rl; font-family: var(--serif); letter-spacing: .45em; font-size: .88rem; color: rgba(244, 238, 226, .78); margin: 0; padding-top: 1rem; border-top: 1px solid var(--gold-soft); display: none; }
+  @media (min-width: 768px) { .hero-vertical { display: block; } }
+
+  .hero-stats { border-top: 1px solid rgba(205, 181, 133, .35); background: rgba(23, 20, 15, .55); backdrop-filter: blur(2px); }
+  .stat-row { display: grid; grid-template-columns: repeat(2, 1fr); margin: 0 auto; }
+  @media (min-width: 960px) { .stat-row { grid-template-columns: repeat(var(--n, 4), 1fr); } }
+  .stat-cell { padding: 1.3rem .5rem 1.4rem; text-align: center; border-right: 1px solid rgba(205, 181, 133, .2); display: flex; flex-direction: column-reverse; }
+  .stat-cell:nth-child(2n) { border-right: 0; }
+  @media (min-width: 960px) { .stat-cell:nth-child(2n) { border-right: 1px solid rgba(205, 181, 133, .2); } .stat-cell:last-child { border-right: 0; } }
+  .stat-cell dt { font-size: .85rem; color: #C9BFAE; margin-top: .35rem; }
+  .stat-cell dd { margin: 0; }
+  .num { font-family: var(--serif); font-weight: 700; font-size: clamp(1.8rem, 4.6vw, 2.6rem); line-height: 1.1; color: var(--gold-soft); }
+  .unit { font-family: var(--serif); color: var(--gold-soft); margin-left: 3px; }
+
+  .pc { display: none; }
+  @media (min-width: 768px) { .pc { display: inline; } }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  .rise { animation: rise .9s cubic-bezier(.2, .7, .2, 1) both; }
+  .title-row.rise { animation-delay: .12s; }
+  .vision.rise { animation-delay: .26s; }
+  .actions.rise { animation-delay: .4s; }
+  @media (prefers-reduced-motion: reduce) { .rise { animation: none; } }
+
+  /* ── 소제목 ───────────────────────── */
+  .sec-head { margin-top: 4rem; }
+  .sec-head h2 { margin: 0 0 1.2rem; }
+  .sec-eyebrow { font-family: var(--serif); color: var(--gold); letter-spacing: .4em; font-size: .85rem; margin: 0 0 .35rem; }
+  .sec-eyebrow.light { color: var(--gold-soft); }
+  .section-head { align-items: flex-end; }
+  .section-head .sec-head h2 { margin-bottom: 1.2rem; }
+  .section-head > a { margin-bottom: 1.4rem; }
+
+  /* ── 주요 사업 ───────────────────────── */
+  .program-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--ink); }
+  @media (min-width: 640px) { .program-list { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 960px) { .program-list { grid-template-columns: repeat(4, 1fr); } }
+  .program-list li { border-bottom: 1px solid var(--line); }
+  @media (min-width: 640px) { .program-list li:nth-child(odd) { border-right: 1px solid var(--line); } }
+  @media (min-width: 960px) { .program-list li { border-right: 1px solid var(--line); } .program-list li:last-child { border-right: 0; } }
+  .program-list a { display: flex; flex-direction: column; height: 100%; padding: 1.6rem 1.4rem 1.4rem; text-decoration: none; color: var(--ink); transition: background .25s; }
+  .program-list a:hover { background: rgba(233, 224, 206, .7); }
+  .p-no { font-family: var(--serif); font-size: 2.2rem; line-height: 1; color: var(--gold); margin-bottom: 1.1rem; }
+  .program-list h3 { margin: 0 0 .5rem; font-size: 1.2rem; }
+  .program-list p { color: var(--ink-soft); font-size: .95rem; margin: 0 0 1rem; flex: 1; }
+  .p-more { font-size: .88rem; color: var(--accent); font-weight: 600; letter-spacing: .02em; }
+  .program-list a:hover .p-more { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ── 상엿집 띠 ───────────────────────── */
+  .band { position: relative; isolation: isolate; overflow: hidden; margin-top: 4.5rem; color: #F4EEE2; background: var(--ink-deep); }
+  .band :global(.band-bg) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; z-index: -2; filter: saturate(.75); }
+  .band-shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(23, 20, 15, .92) 0%, rgba(23, 20, 15, .75) 45%, rgba(23, 20, 15, .25) 100%); }
+  .band-inner { padding-top: 4.5rem; padding-bottom: 4.5rem; }
+  .band-inner > * { max-width: 34em; }
+  .band h2 { margin: 0 0 1rem; color: #FBF7EF; font-size: clamp(1.7rem, 4vw, 2.4rem); }
+  .band p { color: #E3DACB; font-family: var(--serif); line-height: 1.9; }
+  .band .button { margin-top: .6rem; font-family: var(--sans); }
+
+  @media print {
+    .hero, .band { color: #000; background: #fff; min-height: 0; }
+    .hero :global(.hero-bg), .hero-shade, .hero-vertical, .band :global(.band-bg), .band-shade, .seal { display: none; }
+    h1, .vision, .band h2, .band p, .num, .unit, .stat-cell dt, .eyebrow, .h1-pre { color: #000; text-shadow: none; }
+    .hero-stats { background: none; border-top: 1px solid #999; }
+    .hero-inner, .band-inner { padding: 0 0 4mm; }
+  }
 </style>
