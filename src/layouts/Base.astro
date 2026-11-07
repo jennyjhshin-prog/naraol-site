@@ -7,15 +7,26 @@ import '../styles/print.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
+import { org } from '../lib/data';
+import { siteJsonLd } from '../lib/seo';
+
 interface Props {
   title: string;
   description?: string;
+  /** 검색 결과에 나오지 않게 (404 등) */
+  noindex?: boolean;
 }
 
 const SITE = '(사)나라얼연구소';
-const { title, description = '나라의 얼이 담긴 상·제례 문화의 원형을 복원하고 그 의미를 세계에 알리는 (사)나라얼연구소' } = Astro.props;
-const fullTitle = title === SITE ? SITE : `${title} | ${SITE}`;
+const HOME_TITLE = '(사)나라얼연구소 | 나라얼연구소 공식 홈페이지 · 경산상엿집';
+const HOME_DESC = '(사)나라얼연구소 공식 홈페이지. 경북 경산 하양에서 국가민속문화재 제266호 경산상엿집을 보존하고, 한국 전통상례문화 국제학술대회·인문학강좌·물볕아카데미를 여는 사단법인입니다.';
+const { title, description, noindex = false } = Astro.props;
+const isHome = Astro.url.pathname === '/';
+const fullTitle = isHome ? HOME_TITLE : title === SITE ? SITE : `${title} | ${SITE}`;
+const desc = description ?? (isHome ? HOME_DESC : '나라의 얼이 담긴 상·제례 문화의 원형을 복원하고 그 의미를 세계에 알리는 (사)나라얼연구소');
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og-image.jpg', Astro.site);
+const jsonLd = isHome ? JSON.stringify(siteJsonLd(org, Astro.site!.href, '/logo.png')) : undefined;
 ---
 <!doctype html>
 <html lang="ko">
@@ -23,13 +34,24 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={desc} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {org.googleVerification && <meta name="google-site-verification" content={org.googleVerification} />}
+    {org.naverVerification && <meta name="naver-site-verification" content={org.naverVerification} />}
+    <meta property="og:site_name" content={SITE} />
     <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={desc} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="ko_KR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
   </head>
   <body>
     <Header />

@@ -25,7 +25,7 @@ npm run check-links  # 깨진 내부 링크·이미지 검사
 
 | 파일 | 내용 | 필드 |
 |---|---|---|
-| `org.yaml` | 법인·연락·후원 정보 | `name` `founded`(YYYY-MM-DD) `registeredBy` `regNo` `representative` `donationDesignated` `address` `phone` `cafeUrl` `kakaoUrl` `youtubeUrl` `youtubeName` `bank{name,account,holder}` `dues[{label,amount}]` `heritage` |
+| `org.yaml` | 법인·연락·후원 정보 | `name` `founded`(YYYY-MM-DD) `registeredBy` `regNo` `representative` `donationDesignated` `address` `phone` `cafeUrl` `kakaoUrl` `youtubeUrl` `youtubeName` `bank{name,account,holder}` `dues[{label,amount}]` `heritage` `googleVerification` `naverVerification` |
 | `history.yaml` | 전체 연혁 (연도별) | `year`, `items[{date?, title, kind?}]` — kind: `founding` `conference` `lecture` `academy` `culture` `award` `etc` |
 | `conferences.yaml` | 국제학술대회 회차 | `no` `year` `date?` `title` `theme?` `venue` `hosts[]` `photo?` `pressUrl?` |
 | `lectures.yaml` | 인문학강좌 회차 | `no` `date` `speaker?` `affiliation?` `topic` |
@@ -97,3 +97,9 @@ npm run check-links  # 깨진 내부 링크·이미지 검사
 지원서에 첨부할 때는 각 페이지(연혁, 국제학술대회, 인문학강좌, 법인 정보 등)를 브라우저에서 열고
 **인쇄(Ctrl+P) → 대상: PDF로 저장 → 용지 A4**를 고르면 됩니다.
 인쇄 시 메뉴·버튼은 빠지고, 맨 위에 "(사)나라얼연구소 · 페이지명 · 출력일"이 찍히며, 강좌 기록은 모든 연도가 펼쳐집니다.
+
+## 검색 노출 (구글·네이버)
+
+- 사이트맵 `https://naraol.org/sitemap-index.xml`, `robots.txt` 는 빌드 때 자동으로 만들어집니다.
+- 홈에는 기관 정보(JSON-LD)와 공유 미리보기 이미지(`public/og-image.jpg`, `node scripts/make-og.mjs` 로 다시 만듦)가 들어 있습니다.
+- 구글 서치콘솔·네이버 서치어드바이저에서 'HTML 태그' 방식 확인 코드를 받으면 `org.yaml` 의 `googleVerification` / `naverVerification` 에 content 값만 넣고 배포합니다. 확인 후 두 곳 모두에 사이트맵 주소를 제출합니다.

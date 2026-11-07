@@ -18,6 +18,9 @@ export const OrgSchema = z.object({
   bank: z.object({ name: z.string(), account: z.string(), holder: z.string() }),
   dues: z.array(z.object({ label: z.string(), amount: z.number() })),
   heritage: z.string(),
+  // 검색엔진 소유 확인 코드 (구글 서치콘솔·네이버 서치어드바이저에서 받은 content 값)
+  googleVerification: z.string().optional(),
+  naverVerification: z.string().optional(),
 });
 export type Org = z.infer<typeof OrgSchema>;
 
